@@ -18,10 +18,37 @@ class FlutterStatusController : NSObject {
   let statusItem = NSStatusBar.system().statusItem(withLength: NSSquareStatusItemLength)
 
   override init() {
+    super.init()
+
+    statusItem.menu = FlutterStatusController.createStatusMenu(target: self)
+
     if let button = statusItem.button {
       button.image = #imageLiteral(resourceName: "StatusBarIconRed")
       button.image?.isTemplate = true
     }
+  }
+
+  private class func createStatusMenu(target: AnyObject) -> NSMenu {
+    let statusMenu = NSMenu(title: "FlutterBar")
+
+    let openItem = NSMenuItem(title: "Open Dashboard...", action: #selector(FlutterStatusController.openDashboard(sender:)), keyEquivalent: "")
+    openItem.target = target
+    statusMenu.addItem(openItem)
+
+    let quitItem = NSMenuItem(title: "Quit", action: #selector(FlutterStatusController.quit(sender:)), keyEquivalent: "q")
+    quitItem.target = target
+    statusMenu.addItem(quitItem)
+
+    return statusMenu
+  }
+
+  func openDashboard(sender: NSMenuItem) {
+    let dashboardUrl = URL(string: "https://flutter-dashboard.appspot.com/build.html")!
+    NSWorkspace.shared().open(dashboardUrl)
+  }
+
+  func quit(sender: NSMenuItem) {
+    NSApplication.shared().terminate(self)
   }
 
   func poll(interval: TimeInterval) {
