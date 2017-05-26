@@ -35,7 +35,7 @@ class FlutterStatusController : NSObject {
     openItem.target = target
     statusMenu.addItem(openItem)
 
-    let quitItem = NSMenuItem(title: "Quit", action: #selector(FlutterStatusController.quit(sender:)), keyEquivalent: "q")
+    let quitItem = NSMenuItem(title: "Quit", action: #selector(FlutterStatusController.quit(sender:)), keyEquivalent: "")
     quitItem.target = target
     statusMenu.addItem(quitItem)
 
